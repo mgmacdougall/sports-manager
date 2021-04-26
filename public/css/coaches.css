@@ -1,0 +1,36 @@
+.nav-container{
+  display: flex;
+  justify-content: left;
+}
+
+.nav-item{
+  list-style: none;
+  align-content:space-between;
+  margin-left: 1em;
+}
+
+.nav-item a{
+  text-decoration: none;
+  color:black ;
+}
+
+.main-content{
+  display: flex;
+}
+
+section{
+  flex:1;
+  border: 1px solid gray;
+  margin: 1em;
+  box-shadow: 2px 2px grey;
+}
+
+section h2{
+  text-align: center;
+}
+
+.flat{
+  border: none;
+  margin:0;
+  padding:.5em;
+}
