@@ -22,21 +22,23 @@
       <div class="main-content">
           <!-- Lists out any current communications/club news details.-->
           <section id="news">
-            <button class="flat" id="refresh-news">Refresh</button>
             <h2>Current News</h2>
           </section>
           
           <!--Current actions the coach can take-->
           <section id="actions">
-            <button class="flat" id="refresh-news">Refresh</button>
             <h2>Actions</h2>
-
+            <span>Add Player</span>
+            <form action="" method="POST">
+              <label for="playername">Player Name</label>
+              <input type="text" name="playername" id="playername">
+              <button>Add</button>
+            </form>
           </section>
           
           <!-- Player info details-->
           <section id="player">
-            <button class="flat" id="refresh-news">Refresh</button>
-              <h2>Players</h2>
+            <h2>Players</h2>
           </section>
     </div>
     </main>
