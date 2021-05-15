@@ -7,11 +7,21 @@
   <title>Sports Manager</title>
 </head>
 <body>
-  <%- include('./partials/header.ejs'); -%>
+  <%- include('./partials/header.ejs', {pageName: pageName, links: links}); -%>
   
   <h1><%= pageName %></h1>
 
+    <div>
+      <% for(let item of news) {%>
+          <div class="container">
+            <h2> <%= item.title%></h2>
+            <p> <%= item.desc%></p>
+          </div>
+        <% } %>
+    </div>
+
   <%- include ('./partials/foorter.ejs'); -%>
 
+ 
 </body>
 </html>

@@ -1,9 +1,11 @@
 <header>
   <nav class="nav-bar">
     <ul class="nav-container">
-      <li class="nav-item"><a href="./index.html">Home</a></li>
-      <li class="nav-item"><a href="./pages/team.html">Team Page</a></li>
-      <li class="nav-item"><a href="./pages/coaches.html">Coaches Page</a></li>
+    <% for(let link of links) {%>
+        <% if(link.linkName != pageName){ %>
+          <li class="nav-item"><a href="./<%=link.linkURL %>"><%= link.linkName %></a></li>
+        <%}%>
+    <% } %>
     </ul>
   </nav>
 </header>

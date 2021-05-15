@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%=pageName %></title>
+</head>
+<body>
+  <%- include('./partials/header.ejs', {pageName: pageName, links: links}); -%>
+
+  <h1>Welcome to <%=pageName %></h1>
+  
+  <div>
+    <% for(let item of info) {%>
+        <div class="container">
+          <h2><%=item.title %></h2>    
+          <p><%=item.details %></hp>    
+        </div>
+    <% } %>
+  </div>
+
+  <%- include('./partials/foorter.ejs'); -%>
+
+</body>
+</html>
