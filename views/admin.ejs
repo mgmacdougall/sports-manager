@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%=pageName %></title>
+  <script src="/js/jquery.js"></script>
+  <link rel="stylesheet" href="/css/bootstrap.min.css"> 
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="<%=links[0].linkURL%>"><%=links[0].linkName%></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <h1>Club Administration Page</h1>
+
+<!-- Form for addming news to the club -->
+    <figure class="text-center">
+          <h2>News Information</h2>
+    </figure>
+    <form class="row g-3" action="/clubAdmin" method="post">
+      <div class="position-relative m-4">
+          <p>Enter new club news here:</p>
+        <div class="col-md-6 mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Title</label>
+          <input type="text" name="title" class="form-control" id="exampleFormControlInput1">
+        </div>
+          <div class="col-md-6 mb-3">
+          <label for="exampleFormControlTextarea1" class="form-label">News details</label>
+          <textarea class="form-control" name="desc" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+          <div class="col-md-6 mb-3">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </form>
+</body>
+</html>

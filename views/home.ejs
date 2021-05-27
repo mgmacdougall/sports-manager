@@ -5,17 +5,48 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sports Manager</title>
+  <script src="/js/jquery.js"></script>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
-  <%- include('./partials/header.ejs', {pageName: pageName, links: links}); -%>
-  
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="<%=links[0].linkURL%>"><%=links[0].linkName%></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/teams">Teams</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<%=links[4].linkURL%>"><%=links[4].linkName%></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
   <h1><%= pageName %></h1>
 
-    <div>
+    <div class="container">
+
       <% for(let item of news) {%>
-          <div class="container">
-            <h2> <%= item.title%></h2>
-            <p> <%= item.desc%></p>
+      <div class="row justify-content-center">
+            <div class="card m-1"  style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title"><%= item.title%></h5>
+                <h6 class="card-subtitle mb-2 text-muted"><%=item.tagLine %></h6>
+                <p class="card-text"><%=item.desc %></p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
           </div>
         <% } %>
     </div>
