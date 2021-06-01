@@ -1,8 +1,10 @@
 /* eslint-disable linebreak-style */
 const express = require('express');
 const path = require('path');
+const methodOverride = require('method-override');
 
 const app = express();
+app.use(methodOverride('_method'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -38,14 +40,14 @@ const links=[
 	}
 ]
 
-app.get('/', (req, res) => {
-	const news = [
-		{ title: 'Club news - Red Team', tagLine:"Red Moves Up",  desc: "Welcome to today's news.  Team Red takes lead" },
-		{ title: 'Boys 15-16 Rep Team', tagLine:"Boys rep team travelling", desc: 'Rep team off to Windsor for weekend.' },
-		{ title: 'Girls 15-16 Rep Team', tagLine: "Girls rep team on the road", desc: 'Big win on the weekend against Sarnia.  Takes 2nd place in the Tourney.' },
-		{ title: 'Club news - Green Team', tagLine: "Green vs. Blue cancellation: ", desc: 'Green vs. Blue team - canceled.' },
-	];
+let news = [
+	{ id: 1, title: 'Club news - Red Team', tagLine:"Red Moves Up",  desc: "Welcome to today's news.  Team Red takes lead" },
+	{ id: 2, title: 'Boys 15-16 Rep Team', tagLine:"Boys rep team travelling", desc: 'Rep team off to Windsor for weekend.' },
+	{ id: 3,title: 'Girls 15-16 Rep Team', tagLine: "Girls rep team on the road", desc: 'Big win on the weekend against Sarnia.  Takes 2nd place in the Tourney.' },
+	{ id: 4,title: 'Club news - Green Team', tagLine: "Green vs. Blue cancellation: ", desc: 'Green vs. Blue team - canceled.' },
+];
 
+app.get('/', (req, res) => {
 	res.render('home', { pageName: 'Home', news: news, links: links });
 });
 
@@ -93,15 +95,38 @@ app.get('/team/:name', (req, res) => {
 	res.render('team', { pageName: name, info: team.news,  links: links });
 });
 
-
 app.get('/clubAdmin',(req,res)=>{
 	res.render('admin', { pageName: "Club Administration",links: links });
 })
 
 app.post('/clubAdmin', (req,res)=>{
+	let newsItem = req.body;
+	let newsId = Math.floor(Math.random()*10);
+	newsItem = {id: newsId, ...newsItem}
+	news.push(newsItem)
+	console.log(newsItem)
+	res.redirect('/')
+})
 
-	console.log(req.body)
-	res.send('done')
+// For editing an existing news item.
+app.get('/clubAdmin/edit/:articleId',(req, res)=>{
+	const {articleId} = req.params;
+	let newsItem = news.find((article)=>  article.id === parseInt(articleId));
+	console.log(newsItem)
+	res.render('admin-edit', {pageName: "Club Administration", links: links, newsItem})
+}) 
+
+// PUT functionality to replace the entire entry in the news items
+app.put('/clubAdmin/edit/:articleId', (req,res)=>{
+	const {articleId} = req.params;
+	const details = req.body;
+	const result = news.filter(d => d.id !== parseInt(articleId))
+
+	 // push the updates to the found item
+	result.push({id: parseInt(articleId), ...details})
+	news = result; // push item back onto the news items.
+
+	res.redirect('/'); // return the user back to the main news screen.
 })
 
 app.listen(PORT, () => console.log(`App started on port ${PORT}`));

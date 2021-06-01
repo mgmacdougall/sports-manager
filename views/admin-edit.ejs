@@ -31,23 +31,24 @@
     <figure class="text-center">
           <h2>News Information</h2>
     </figure>
-    <form class="row g-3" action="/clubAdmin" method="post">
+    <form class="row g-3" action="/clubAdmin/edit/<%=newsItem.id%>?_method=PUT" method="post">
       <div class="position-relative m-4">
           <p>Enter new club news here:</p>
               <div class="col-md-6 mb-3">
                 <label for="new-title" class="form-label">Title</label>
-                <input type="text" name="title" class="form-control" id="new-title">
+                <input type="text" name="title" class="form-control" id="new-title" value="<%= newsItem.title%>">
               </div>
               <div class="col-md-6 mb-3">
                 <label for="new-tag" class="form-label">Tag</label>
-                <input type="text" name="tagLine" class="form-control" id="new-tag">
+                <input type="text" name="tagLine" class="form-control" id="new-tag" value="<%= newsItem.tagLine%>">
               </div>
               <div class="col-md-6 mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label">News details</label>
-                <textarea class="form-control" name="desc" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <textarea class="form-control" name="desc" id="exampleFormControlTextarea1" rows="3"><%= newsItem.desc%></textarea>
               </div>
                 <div class="col-md-6 mb-3">
-                  <button type="submit" class="btn btn-primary">Save</button>
+                  <button type="submit" class="btn btn-primary">Update</button>
+                  <button href="/" class="btn btn-primary">Cancel</button>
               </div>
       </div>
     </form>
