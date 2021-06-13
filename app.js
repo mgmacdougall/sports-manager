@@ -124,7 +124,7 @@ app.get('/clubAdmin/edit/:articleId',async (req, res)=>{
 app.put('/clubAdmin/edit/:articleId', async(req,res)=>{
 	const {articleId} = req.params;
 	const details = req.body;
-	const articleItem = 	await clubPost.findOneAndUpdate({_id:articleId},details, {new: true})
+	await clubPost.findOneAndUpdate({_id:articleId},details, {useFindAndModify: false})
 	res.redirect('/'); // return the user back to the main news screen.
 })
 
