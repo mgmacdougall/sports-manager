@@ -36,7 +36,7 @@
 
     <div class="container">
 
-      <% for(let item of news) {%>
+      <% for(let item of results) {%>
       <div class="row justify-content-center">
             <div class="card m-1"  style="width: 18rem;">
               <div class="card-body">
@@ -44,7 +44,7 @@
                 <h6 class="card-subtitle mb-2 text-muted"><%=item.tagLine %></h6>
                 <p class="card-text"><%=item.desc %></p>
                 <a href="#" class="card-link">Card link</a>
-                <a href="/clubAdmin/edit/<%=item.id %>" class="card-link">Edit</a>
+                <a href="/clubAdmin/edit/<%=item._id %>" class="card-link">Edit</a>
               </div>
             </div>
           </div>

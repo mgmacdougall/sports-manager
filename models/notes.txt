@@ -1,0 +1,28 @@
+Schema Details:
+News Collection - this the general news for the site
+{
+  title: String,
+  details: String,
+  tag: String
+}
+
+Coach Collection - the coaches for the club
+{
+  name: String,
+  coachID: Number
+}
+
+Teams Collection - these are the Teams
+{
+  name: String,
+  coachID: String,
+  players:[{
+    pName: String,
+    pAge: Number,
+    pDOB: Date,
+    pGoals: Number,
+    pAssits: Number,
+    pPosition
+  },...]
+}
+

@@ -1,14 +1,23 @@
 /* eslint-disable linebreak-style */
+require('dotenv').config()
 const express = require('express');
 const path = require('path');
 const methodOverride = require('method-override');
+const mongoose = require('mongoose');
+const clubPost = require('./models/news');
 
 const app = express();
+const connectionString = process.env.DB_CONNECTION+":"+process.env.DB_PORT+"/"+process.env.DB_NAME;
+
+mongoose.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true})
+	.then(()=> console.log('db connected'))
+	.catch((e)=> console.log('error: ', e));
+
 app.use(methodOverride('_method'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views')); 
 app.set('view engine', 'ejs');
 
 app.use(express.json());
@@ -40,15 +49,9 @@ const links=[
 	}
 ]
 
-let news = [
-	{ id: 1, title: 'Club news - Red Team', tagLine:"Red Moves Up",  desc: "Welcome to today's news.  Team Red takes lead" },
-	{ id: 2, title: 'Boys 15-16 Rep Team', tagLine:"Boys rep team travelling", desc: 'Rep team off to Windsor for weekend.' },
-	{ id: 3,title: 'Girls 15-16 Rep Team', tagLine: "Girls rep team on the road", desc: 'Big win on the weekend against Sarnia.  Takes 2nd place in the Tourney.' },
-	{ id: 4,title: 'Club news - Green Team', tagLine: "Green vs. Blue cancellation: ", desc: 'Green vs. Blue team - canceled.' },
-];
-
-app.get('/', (req, res) => {
-	res.render('home', { pageName: 'Home', news: news, links: links });
+app.get('/', async(req, res) => {
+	const results = await clubPost.find({});
+	res.render('home', { pageName: 'Home', results: results, links: links });
 });
 
 app.get('/teams', (req,res)=>{
@@ -99,33 +102,29 @@ app.get('/clubAdmin',(req,res)=>{
 	res.render('admin', { pageName: "Club Administration",links: links });
 })
 
-app.post('/clubAdmin', (req,res)=>{
-	let newsItem = req.body;
-	let newsId = Math.floor(Math.random()*10);
-	newsItem = {id: newsId, ...newsItem}
-	news.push(newsItem)
-	console.log(newsItem)
+app.post('/clubAdmin', async (req,res)=>{
+	let {title, tagLine, desc} = req.body;
+	const Item = new clubPost({
+		title: title,
+		desc: desc,
+		tag: tagLine
+	})
+	await Item.save();
 	res.redirect('/')
 })
 
 // For editing an existing news item.
-app.get('/clubAdmin/edit/:articleId',(req, res)=>{
+app.get('/clubAdmin/edit/:articleId',async (req, res)=>{
 	const {articleId} = req.params;
-	let newsItem = news.find((article)=>  article.id === parseInt(articleId));
-	console.log(newsItem)
-	res.render('admin-edit', {pageName: "Club Administration", links: links, newsItem})
+	const results = await clubPost.findOne({_id:articleId});
+	res.render('admin-edit', {pageName: "Club Administration", links: links, newsItem:results})
 }) 
 
 // PUT functionality to replace the entire entry in the news items
-app.put('/clubAdmin/edit/:articleId', (req,res)=>{
+app.put('/clubAdmin/edit/:articleId', async(req,res)=>{
 	const {articleId} = req.params;
 	const details = req.body;
-	const result = news.filter(d => d.id !== parseInt(articleId))
-
-	 // push the updates to the found item
-	result.push({id: parseInt(articleId), ...details})
-	news = result; // push item back onto the news items.
-
+	const articleItem = 	await clubPost.findOneAndUpdate({_id:articleId},details, {new: true})
 	res.redirect('/'); // return the user back to the main news screen.
 })
 

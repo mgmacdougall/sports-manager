@@ -26,6 +26,7 @@
     "express": "4.17.1",
     "install": "0.13.0",
     "method-override": "3.0.0",
+    "mongoose": "5.12.13",
     "npm": "7.15.0",
     "uuid": "8.3.2"
   },
