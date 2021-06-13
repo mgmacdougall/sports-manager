@@ -41,6 +41,10 @@ const links=[
 	{
 		linkName: "Club Admin",
 		linkURL: "/clubAdmin"
+	},
+	{
+		linkName: "Article Management",
+		linkURL: "/clubAdmin/articles/admin"
 	}
 ]
 
@@ -123,6 +127,36 @@ app.put('/clubAdmin/edit/:articleId', async(req,res)=>{
 	res.redirect('/'); // return the user back to the main news screen.
 })
 
+// Finds one an deletes the article
+app.delete('/clubAdmin/edit/:articleId', async(req,res)=>{
+	const {asticleId} = req.params;
+	await clubPost.findOneAndDelete({_id: articleId});
+	res.redirect('/')
+})
+
+
+app.get('/clubAdmin/articles/admin', async(req, res)=>{
+	// First get all the articles in the db
+		const results = await clubPost.find({});
+		res.render('article-list', { pageName: 'Home', results: results, links: links });
+})
+
+
+app.delete('/clubAdmin/articles/admin', async(req,res)=>{
+	const {selection} = req.body;
+	if(Array.isArray(selection) || selection){
+			if(Array.isArray(selection)){
+				for(let i=0; i<selection.length; i++){
+					await clubPost.deleteOne({_id:`${selection[i]}`})
+				}
+			}else{
+				await clubPost.deleteOne({_id:`${selection}`})
+			}
+		}else{
+			console.log('error')
+		}
+		return res.redirect('/')
+})
 app.listen(PORT, () => console.log(`App started on port ${PORT}`));
 
 module.exports = app;
