@@ -1,12 +1,20 @@
 /* eslint-disable linebreak-style */
 require('dotenv').config()
 const express = require('express');
+const fs = require('fs');
 const path = require('path');
 const methodOverride = require('method-override');
 const clubPost = require('./models/news');
 const DB = require('./utils/connections');
+const morgan = require('morgan');
+
+
 const app = express();
 const _db = DB.getConnection();
+
+const accessStreamLog = fs.createWriteStream(path.join(__dirname, 'access.log'));
+app.use(morgan('combined', { stream: accessStreamLog }))
+
 
 app.use(methodOverride('_method'));
 
