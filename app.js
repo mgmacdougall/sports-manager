@@ -3,16 +3,11 @@ require('dotenv').config()
 const express = require('express');
 const path = require('path');
 const methodOverride = require('method-override');
-// const mongoose = require('mongoose');
 const clubPost = require('./models/news');
 const DB = require('./utils/connections');
 const app = express();
-// const connectionString = process.env.DB_CONNECTION+":"+process.env.DB_PORT+"/"+process.env.DB_NAME;
-
-// mongoose.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true})
-// 	.then(()=> console.log('db connected'))
-// 	.catch((e)=> console.log('error: ', e));
 const _db = DB.getConnection();
+
 app.use(methodOverride('_method'));
 
 app.use(express.static(path.join(__dirname, 'public')));
