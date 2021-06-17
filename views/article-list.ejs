@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+   <script src="/js/jquery.js"></script>
+  <link rel="stylesheet" href="/css/bootstrap.min.css"> 
+</head>
+<body>
+ <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="<%=links[0].linkURL%>"><%=links[0].linkName%></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <h1>Article List</h1>
+
+  <form action="/clubAdmin/articles/admin?_method=DELETE" method="post">
+      <div class="list-group">
+        <% for(let news of results){ %>
+        <label class="list-group-item">
+            <input class="form-check-input me-1" type="checkbox" value=<%=news._id%> id="id" name="selection">
+            <%= news.title %>
+        </label>
+        <%}%>
+      </div>
+      <br/>
+      <button type="submit" class="btn btn-primary">Remove</button>
+  </form>
+</body>
+</html>
