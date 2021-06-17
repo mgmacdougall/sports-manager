@@ -14,6 +14,7 @@ class ClubAdminService{
 
   getArticleById = async(id)=>{
     const results = await clubPost.findOne({_id:id});
+    
     if(results){
       return results;
     }
