@@ -1,7 +1,8 @@
 var express = require('express');
 var clubAdminRouter = express.Router()
-const clubPost = require('../models/news');
+// const clubPost = require('../models/news');
 
+const clubAdminService = require('../services/clubAdminService.js')
 const links=[
 	{
 		linkName: "Home",
@@ -37,18 +38,13 @@ clubAdminRouter.get('/',(req,res)=>{
 
 clubAdminRouter.post('/', async (req,res)=>{
 	let {title, tagLine, desc} = req.body;
-	const Item = new clubPost({
-		title: title,
-		desc: desc,
-		tag: tagLine
-	})
-	await Item.save();
+	await clubAdminService.createArticle(title, tagLine, desc);
 	res.redirect('/')
 })
 
 clubAdminRouter.get('/edit/:articleId',async (req, res)=>{
 	const {articleId} = req.params;
-	const results = await clubPost.findOne({_id:articleId});
+	const results = await clubAdminService.getArticleById(articleId);
 	res.render('admin-edit', {pageName: "Club Administration", links: links, newsItem:results})
 }) 
 
@@ -56,39 +52,27 @@ clubAdminRouter.get('/edit/:articleId',async (req, res)=>{
 clubAdminRouter.put('/edit/:articleId', async(req,res)=>{
 	const {articleId} = req.params;
 	const details = req.body;
-	await clubPost.findOneAndUpdate({_id:articleId},details, {useFindAndModify: false})
+	await clubAdminService.updateById(articleId, details);
 	res.redirect('/'); // return the user back to the main news screen.
 })
 
 // Finds one an deletes the article
 clubAdminRouter.delete('/edit/:articleId', async(req,res)=>{
-	const {asticleId} = req.params;
-	await clubPost.findOneAndDelete({_id: articleId});
+	const {articleId} = req.params;
+	await clubAdminService.deleteArticleById(articleId);
 	res.redirect('/')
 })
 
 
 clubAdminRouter.get('/articles/admin', async(req, res)=>{
-	// First get all the articles in the db
-		const results = await clubPost.find({});
+		const results = await clubAdminService.getAllArticles();
 		res.render('article-list', { pageName: 'Home', results: results, links: links });
 })
 
-
 clubAdminRouter.delete('/articles/admin', async(req,res)=>{
 	const {selection} = req.body;
-	if(Array.isArray(selection) || selection){
-			if(Array.isArray(selection)){
-				for(let i=0; i<selection.length; i++){
-					await clubPost.deleteOne({_id:`${selection[i]}`})
-				}
-			}else{
-				await clubPost.deleteOne({_id:`${selection}`})
-			}
-		}else{
-			console.log('error')
-		}
-		return res.redirect('/')
+	await clubAdminService.deleteMultipleById(selection);
+	return res.redirect('/')
 })
 
 module.exports = clubAdminRouter;
